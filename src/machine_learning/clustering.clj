@@ -1,5 +1,5 @@
-(ns song-recommender.clustering
-  (:require [song-recommender.global :as global]))
+(ns machine_learning.clustering
+  (:require [config.global :as global]))
 
 
 (defn euclidean-distance [first-vector second-vector]
@@ -43,6 +43,6 @@
         new-means
         (recur new-means (inc i))))))
 
-
-
-;(not (are-means-same old-means new-means))
+(defn kmeans [initial-means data distance features]
+  (vals (assign-to-means
+          (calculate-centroids initial-means data distance features) data distance features)))

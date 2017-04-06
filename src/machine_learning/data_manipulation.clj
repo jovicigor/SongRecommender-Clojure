@@ -1,5 +1,5 @@
-(ns song-recommender.data-manipulation
-  (:require [song-recommender.global :as global]))
+(ns machine_learning.data-manipulation
+  (:require [config.global :as global]))
 
 (defn min_max_normalization [minimum maximum value]
   (/ (- value minimum) (- maximum minimum)))

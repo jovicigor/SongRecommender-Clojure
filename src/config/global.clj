@@ -1,7 +1,6 @@
-(ns song-recommender.global
-  (:require
-    [semantic-csv.core :as sc]
-    [song-recommender.util :as util]))
+(ns config.global
+  (:require [semantic-csv.core :as sc]
+            [config.util :as util]))
 
 
 ;sc/slurp-csv returns squence of dictionaries
