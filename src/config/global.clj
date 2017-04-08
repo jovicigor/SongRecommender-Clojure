@@ -7,7 +7,7 @@
   (sc/slurp-csv path-to-csv))
 
 (def raw-data
-  (read-data "10KSongs.csv"))
+  (read-data "src/10KSongs.csv"))
 
 (def numeric-features '(:acousticness :danceability :energy :instrumentalness :track_key
                          :liveness :mode :popularity :speechiness :tempo :valence :album_year))

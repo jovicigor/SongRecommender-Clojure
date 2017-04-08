@@ -43,6 +43,10 @@
         new-means
         (recur new-means (inc i))))))
 
+;should generate more csv
 (defn kmeans [initial-means data distance features]
-  (assign-to-means
-    (calculate-centroids initial-means data distance features) data distance features))
+  (let [clustering-result (assign-to-means (calculate-centroids initial-means data distance features) data distance features)]
+    (into {} (map
+               #(vector %
+                        (map :remote_id
+                             (get clustering-result %))) (keys clustering-result)))))
