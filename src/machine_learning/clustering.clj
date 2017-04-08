@@ -44,5 +44,5 @@
         (recur new-means (inc i))))))
 
 (defn kmeans [initial-means data distance features]
-  (vals (assign-to-means
-          (calculate-centroids initial-means data distance features) data distance features)))
+  (assign-to-means
+    (calculate-centroids initial-means data distance features) data distance features))
