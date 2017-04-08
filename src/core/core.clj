@@ -6,10 +6,24 @@
               :methods [#^{:static true} [performClustering [int] java.util.Map]]))
 
 
+(defn get-nummeric-values [feature, data]
+  (map double (map read-string
+                   (map feature data))))
+
+(defn get-for-feature [reducer feature-key data]
+  (reduce reducer
+          (get-nummeric-values feature-key data)))
+
+(defn calculate-per-feature [reducer data]
+  (into {} (map #(vector % (get-for-feature reducer % data)) global/numeric-features)))
+
 ;returns map: CentroidId: IdsOfItemsInsideCluster
-(defn -performClustering [num-of-clusters]
-  (let [normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features) global/raw-data)
+(defn -performClustering [num-of-clusters path-to-csv]
+  (let [data (global/read-data path-to-csv)
+        min_per_feature (calculate-per-feature min data)
+        max_per_feature (calculate-per-feature max data)
+        normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) data)
         means (take num-of-clusters normalized-data)]
     (clustering/kmeans means normalized-data clustering/euclidean-distance-for-features global/numeric-features)))
 
-;(println (first (-performClustering 4)))
+(println (first (-performClustering 4 "src/10KSongs.csv")))
