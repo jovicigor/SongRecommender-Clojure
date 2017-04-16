@@ -2,7 +2,7 @@
   (:require [config.global :as global]))
 
 (defn min_max_normalization [minimum maximum value]
-  (/ (- value minimum) (- maximum minimum)))
+  (/ (- (double value) minimum) (- maximum minimum)))
 
 (defn normalize_feature [value feature min_per_feature max_per_feature]
   (let [minimum (feature min_per_feature)
