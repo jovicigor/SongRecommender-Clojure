@@ -1,9 +1,10 @@
 (ns machine_learning.clustering
-  (:require [config.global :as global]))
+  (:require [config.global :as global]
+            [machine-learning.similarity :as similarity]))
 
 
 (defn assign-to-means [means items distance features]
-  (group-by #(:remote_id (global/find-closest-from-items % means distance features)) items))
+  (group-by #(:remote_id (similarity/find-closest-from-items % means distance features)) items))
 
 
 ;this method should be in average-item method
@@ -15,7 +16,7 @@
 ;find average item from items for average point
 (defn average-item [items features distance]
   (let [average-point (average-point items features)]
-    (global/find-closest-from-items average-point items distance features)))
+    (similarity/find-closest-from-items average-point items distance features)))
 
 ;here you should map values to average-item
 (defn find-new-means [old-means items distance features]

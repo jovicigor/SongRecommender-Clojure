@@ -1,7 +1,8 @@
 (ns core.core
   (:require [config.global :as global]
             [machine_learning.data-manipulation :as data]
-            [machine_learning.clustering :as clustering])
+            [machine_learning.clustering :as clustering]
+            [machine-learning.similarity :as similarity])
   (:gen-class :name com.example.SongRecommenderCore
               :methods [[performClustering [int java.lang.String] java.util.Map],
                         [performClusteringWithCentroidsWithGenres [int java.lang.String java.lang.String] java.util.Map]]))
@@ -21,7 +22,7 @@
         max_per_feature (global/calculate-per-feature max data)
         normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) data)
         means (take-random-sample num-of-clusters normalized-data)]
-    (clustering/kmeans means normalized-data global/euclidean-distance-for-features global/numeric-features)))
+    (clustering/kmeans means normalized-data similarity/euclidean-distance-for-features global/numeric-features)))
 
 (defn -performClusteringWithCentroidsWithGenres [this num-of-clusters path-to-csv path-to-centroid-candidates]
   (let [data (global/read-data path-to-csv)
@@ -29,4 +30,4 @@
         max_per_feature (global/calculate-per-feature max data)
         normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) data)
         means (take-means (map :remote_id (take-random-sample num-of-clusters (global/read-data path-to-centroid-candidates))) normalized-data)]
-    (clustering/kmeans means normalized-data global/euclidean-distance-for-features global/numeric-features)))
+    (clustering/kmeans means normalized-data similarity/euclidean-distance-for-features global/numeric-features)))

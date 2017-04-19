@@ -1,5 +1,7 @@
 (ns config.global
-  (:require [semantic-csv.core :as sc]))
+  (:require [semantic-csv.core :as sc]
+            [clojure.string :as str]
+            [clojure.set :as sets]))
 
 ;sc/slurp-csv returns squence of dictionaries
 (defn read-data [path-to-csv]
@@ -20,18 +22,3 @@
 
 (defn calculate-per-feature [reducer data]
   (into {} (map #(vector % (get-for-feature reducer % data)) numeric-features)))
-
-(defn euclidean-distance [first-vector second-vector]
-  (Math/sqrt (reduce + (map #(Math/pow (- %1 %2) 2) first-vector second-vector))))
-
-(defn euclidean-distance-for-features [map1 map2 features]
-  (euclidean-distance (map #(% map1) features)
-                      (map #(% map2) features)))
-
-(defn find-closest-from-items [item items distance features]
-  (first (sort-by #(distance % item features) items)))
-
-(defn find-closest-different-from-items [item items distance features]
-  (let [filtered-items (filter #(not= (:remote_id item) (:remote_id %)) items)]
-    (first (sort-by #(distance % item features) filtered-items))))
-
