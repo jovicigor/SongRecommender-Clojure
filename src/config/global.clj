@@ -31,3 +31,7 @@
 (defn find-closest-from-items [item items distance features]
   (first (sort-by #(distance % item features) items)))
 
+(defn find-closest-different-from-items [item items distance features]
+  (let [filtered-items (filter #(not= (:remote_id item) (:remote_id %)) items)]
+    (first (sort-by #(distance % item features) filtered-items))))
+

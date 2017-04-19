@@ -20,4 +20,4 @@
         max_per_feature (global/calculate-per-feature max (global/read-data path-to-max-csv))
         normalized-cluster (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) cluster-items)
         normalized-song (data/row->normalized_row song global/non-numeric-features global/numeric-features min_per_feature max_per_feature)]
-    (:remote_id (global/find-closest-from-items normalized-song normalized-cluster global/euclidean-distance-for-features global/numeric-features))))
+    (:remote_id (global/find-closest-different-from-items normalized-song normalized-cluster global/euclidean-distance-for-features global/numeric-features))))
