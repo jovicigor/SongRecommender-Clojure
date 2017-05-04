@@ -11,7 +11,7 @@
 (defn read-data [path-to-csv]
   (sc/slurp-csv path-to-csv))
 
-(defn get-nummeric-values [feature, data]
+(defn get-nummeric-values [feature data]
   (map double
        (map read-string
             (map feature data))))
@@ -20,7 +20,7 @@
   (reduce reducer
           (get-nummeric-values feature-key data)))
 
-(defn calculate-per-feature [reducer data]
+(defn calculate-per-feature [reducer data features]
   (into {}
         (map #(vector % (get-for-feature reducer % data))
-             numeric-features)))
+             features)))
