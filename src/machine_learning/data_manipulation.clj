@@ -6,23 +6,23 @@
     (- (double value) minimum)
     (- maximum minimum)))
 
-(defn normalize-feature [value feature min_per_feature max_per_feature]
-  (let [minimum (feature min_per_feature)
-        maximum (feature max_per_feature)]
+(defn normalize-feature [value feature min-per-feature max-per-feature]
+  (let [minimum (feature min-per-feature)
+        maximum (feature max-per-feature)]
     (min-max-normalization minimum
                            maximum
                            value)))
 
-(defn normalize-features [row features min_per_feature max_per_feature]
-  (map #(vector % (normalize-feature (read-string (% row)) % min_per_feature max_per_feature))
+(defn normalize-features [row features min-per-feature max-per-feature]
+  (map #(vector % (normalize-feature (read-string (% row)) % min-per-feature max-per-feature))
        features))
 
 (defn extract-features [row features]
   (map #(vector % (% row))
        features))
 
-(defn row->normalized_row [row features_not_to_normalize features_to_normalize min_per_feature max_per_feature]
+(defn row->normalized_row [row features-not-to-normalize features-to-normalize min-per-feature max-per-feature]
   (into {}
         (concat
-          (extract-features row features_not_to_normalize)
-          (normalize-features row features_to_normalize min_per_feature max_per_feature))))
+          (extract-features row features-not-to-normalize)
+          (normalize-features row features-to-normalize min-per-feature max-per-feature))))
