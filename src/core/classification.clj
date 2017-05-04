@@ -11,9 +11,11 @@
 (defn -findClosestCentroids [this path-to-cenroids path-to-min-csv path-to-max-csv song]
   (let [centroids (global/read-data path-to-cenroids)
         min_per_feature (global/calculate-per-feature min
-                                                      (global/read-data path-to-min-csv))
+                                                      (global/read-data path-to-min-csv)
+                                                      global/numeric-features)
         max_per_feature (global/calculate-per-feature max
-                                                      (global/read-data path-to-max-csv))
+                                                      (global/read-data path-to-max-csv)
+                                                      global/numeric-features)
         normalized-centroids (map #(data/row->normalized_row %
                                                              global/non-numeric-features
                                                              global/numeric-features
@@ -33,9 +35,11 @@
 (defn -findSimilarWithEuclideanDistance [this path-to-cluster path-to-min-csv path-to-max-csv song]
   (let [cluster-items (global/read-data path-to-cluster)
         min_per_feature (global/calculate-per-feature min
-                                                      (global/read-data path-to-min-csv))
+                                                      (global/read-data path-to-min-csv)
+                                                      global/numeric-features)
         max_per_feature (global/calculate-per-feature max
-                                                      (global/read-data path-to-max-csv))
+                                                      (global/read-data path-to-max-csv)
+                                                      global/numeric-features)
         normalized-cluster (map #(data/row->normalized_row %
                                                            global/non-numeric-features
                                                            global/numeric-features
@@ -55,9 +59,11 @@
 (defn -getTopMatches [this path-to-cluster path-to-min-csv path-to-max-csv song number-of-matches]
   (let [cluster-items (global/read-data path-to-cluster)
         min_per_feature (global/calculate-per-feature min
-                                                      (global/read-data path-to-min-csv))
+                                                      (global/read-data path-to-min-csv)
+                                                      global/numeric-features)
         max_per_feature (global/calculate-per-feature max
-                                                      (global/read-data path-to-max-csv))
+                                                      (global/read-data path-to-max-csv)
+                                                      global/numeric-features)
         normalized-cluster (map #(data/row->normalized_row %
                                                            global/non-numeric-features
                                                            global/numeric-features

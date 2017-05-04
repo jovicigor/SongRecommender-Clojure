@@ -19,9 +19,11 @@
 (defn -performClustering [this num-of-clusters path-to-csv]
   (let [data (global/read-data path-to-csv)
         min_per_feature (global/calculate-per-feature min
-                                                      data)
+                                                      data
+                                                      global/numeric-features)
         max_per_feature (global/calculate-per-feature max
-                                                      data)
+                                                      data
+                                                      global/numeric-features)
         normalized-data (map
                           #(data/row->normalized_row %
                                                      global/non-numeric-features
@@ -38,9 +40,11 @@
 (defn -performClusteringWithCentroidsWithGenres [this num-of-clusters path-to-csv path-to-centroid-candidates]
   (let [data (global/read-data path-to-csv)
         min_per_feature (global/calculate-per-feature min
-                                                      data)
+                                                      data
+                                                      global/numeric-features)
         max_per_feature (global/calculate-per-feature max
-                                                      data)
+                                                      data
+                                                      global/numeric-features)
         normalized-data (map
                           #(data/row->normalized_row %
                                                      global/non-numeric-features
