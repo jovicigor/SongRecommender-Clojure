@@ -18,16 +18,41 @@
 ;returns map: CentroidId: IdsOfItemsInsideCluster
 (defn -performClustering [this num-of-clusters path-to-csv]
   (let [data (global/read-data path-to-csv)
-        min_per_feature (global/calculate-per-feature min data)
-        max_per_feature (global/calculate-per-feature max data)
-        normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) data)
-        means (take-random-sample num-of-clusters normalized-data)]
-    (clustering/kmeans means normalized-data similarity/euclidean-distance-for-features global/numeric-features)))
+        min_per_feature (global/calculate-per-feature min
+                                                      data)
+        max_per_feature (global/calculate-per-feature max
+                                                      data)
+        normalized-data (map
+                          #(data/row->normalized_row %
+                                                     global/non-numeric-features
+                                                     global/numeric-features min_per_feature
+                                                     max_per_feature)
+                          data)
+        means (take-random-sample num-of-clusters
+                                  normalized-data)]
+    (clustering/kmeans means
+                       normalized-data
+                       similarity/euclidean-distance-for-features
+                       global/numeric-features)))
 
 (defn -performClusteringWithCentroidsWithGenres [this num-of-clusters path-to-csv path-to-centroid-candidates]
   (let [data (global/read-data path-to-csv)
-        min_per_feature (global/calculate-per-feature min data)
-        max_per_feature (global/calculate-per-feature max data)
-        normalized-data (map #(data/row->normalized_row % global/non-numeric-features global/numeric-features min_per_feature max_per_feature) data)
-        means (take-means (map :remote_id (take-random-sample num-of-clusters (global/read-data path-to-centroid-candidates))) normalized-data)]
-    (clustering/kmeans means normalized-data similarity/euclidean-distance-for-features global/numeric-features)))
+        min_per_feature (global/calculate-per-feature min
+                                                      data)
+        max_per_feature (global/calculate-per-feature max
+                                                      data)
+        normalized-data (map
+                          #(data/row->normalized_row %
+                                                     global/non-numeric-features
+                                                     global/numeric-features
+                                                     min_per_feature
+                                                     max_per_feature)
+                          data)
+        means (take-means (map :remote_id
+                               (take-random-sample num-of-clusters
+                                                   (global/read-data path-to-centroid-candidates)))
+                          normalized-data)]
+    (clustering/kmeans means
+                       normalized-data
+                       similarity/euclidean-distance-for-features
+                       global/numeric-features)))

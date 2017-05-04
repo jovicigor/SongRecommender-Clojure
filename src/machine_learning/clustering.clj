@@ -4,14 +4,15 @@
 
 
 (defn assign-to-means [means items distance features]
-  (group-by #(:remote_id (similarity/find-closest-from-items % means distance features)) items))
+  (group-by #(:remote_id (similarity/find-closest-from-items % means distance features))
+            items))
 
 
 ;this method should be in average-item method
 (defn average-point [items features]
   (into {}
-        (map
-          #(vector % (/ (reduce + (map % items)) (count items))) features)))
+        (map #(vector % (/ (reduce + (map % items)) (count items)))
+             features)))
 
 ;find average item from items for average point
 (defn average-item [items features distance]
@@ -20,11 +21,14 @@
 
 ;here you should map values to average-item
 (defn find-new-means [old-means items distance features]
-  (println (map :remote_id old-means))
-  (map #(average-item % features distance) (vals (assign-to-means old-means items distance features))))
+  (map #(average-item % features distance)
+       (vals
+         (assign-to-means old-means items distance features))))
 
 (defn are-means-same [old-means new-means]
-  (every? true? (map #(.contains (map :remote_id old-means) %) (map :remote_id new-means))))
+  (every? true?
+          (map #(.contains (map :remote_id old-means) %)
+               (map :remote_id new-means))))
 
 (defn calculate-centroids [initial-means items distance features]
   (loop [old-means initial-means i 0]
@@ -36,7 +40,6 @@
 ;should generate more csv
 (defn kmeans [initial-means data distance features]
   (let [clustering-result (assign-to-means (calculate-centroids initial-means data distance features) data distance features)]
-    (into {} (map
-               #(vector %
-                        (map :remote_id
-                             (get clustering-result %))) (keys clustering-result)))))
+    (into {}
+          (map #(vector % (map :remote_id (get clustering-result %)))
+               (keys clustering-result)))))
