@@ -43,7 +43,6 @@
     (empty? (feature item1))
     (empty? (feature item2))))
 
-;tokenizable = can be split into words
 (defn similarity-for-tokenizable-feature [item1 item2 feature-to-tokenize]
   (if (cant-tokenize item1 item2 feature-to-tokenize)
     0
