@@ -57,3 +57,12 @@ String findCentroid() {
                   .getTopMatches("Cluster" + cluster + ".csv", minValuesCsvPath, maxValuesCsvPath, songMap, numberOfMatches);
     }
 ```
+
+Usage examples can be found on https://github.com/Igor-Jovic/SongRecommenderWeb (service layer)
+
+## Typical recommendation workflow
+1. All songs are grouped using kmeans algorithm.
+2. The dataset is splitted into separate .csv files, by cluster.
+3. New song with attributes is passed to findCentroid() method, it is then assigned to the closest centroid's cluster.
+4. From that cluster, the top similar songs are extracted and their ID's are returned.
+5. Ids can be used to query Spotify.com to get Song info (name, artist, preview url, etc.) 
