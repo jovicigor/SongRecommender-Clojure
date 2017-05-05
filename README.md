@@ -6,7 +6,10 @@ It implements few core algorithms:
 1. K-means algorithm - used for clustering (grouping) songs. 
 2. Various similarity measures - Euclidean distance, Euclidean similarity, Jaccard Similarity... 
 
-The dataset of around 750.000 songs can be found on https://drive.google.com/file/d/0B3MZlBNxyLNubEF4bnJSOWozUm8/view?usp=sharing and it consists of features described in the table below. 
+The dataset of around 750.000 songs can be found on### Prerequisites
+
+In order to use this tool Song Database is needed along with necessary .csv files which can be found here 
+https://drive.google.com/drive/folders/0B3MZlBNxyLNuQzd0bFIwbzN6LXM?usp=sharing and it consists of features described in the table below. 
 
 | Attribute      | type           | description               |
 | :-------------- |:--------------| :-------------------------|
