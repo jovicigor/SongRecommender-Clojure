@@ -3,7 +3,7 @@ A Clojure library for clustering, classifying and calculating similarities betwe
 ## Overview
 This library is a central component of a Song Recommender application (https://github.com/Igor-Jovic/SongRecommenderWeb).
 It implements few core algorithms:
-1. K-means algorithm - which is used for clustering (grouping) songs. 
+1. K-means algorithm - used for clustering (grouping) songs. 
 2. Various similarity measures - Euclidean distance, Euclidean similarity, Jaccard Similarity... 
 
 The dataset of around 750.000 songs can be found on https://drive.google.com/file/d/0B3MZlBNxyLNubEF4bnJSOWozUm8/view?usp=sharing and it consists of features described in the table below. 
@@ -31,4 +31,29 @@ To use this library simply clone the project and build it with Leiningen (https:
 - lein uberjar
  
 Now you can include the jar into your normal java project and use the generated classes:
+1. com.songrecommender.SongRecommenderCore - this class is used for clustering the songs - performClustering method returns a Map which holds list of song ids for each centroid id. 
 
+```java
+ Map<String, List<String>> clusteringResult = new SongRecommenderCore()
+                                                 .performClustering(numberOfClusters, pathToCsv);
+```
+Usage examples can be found on https://github.com/Igor-Jovic/SongRecommenderClustering 
+
+2. com.songrecommender.Classifier - used for classification of a new song, finding most similar one and finding top similar songs. 
+
+```java
+String findCentroid() {
+        return new Classifier()
+                   .findClosestCentroids(centroidsCsvPath, minValuesCsvPath, maxValuesCsvPath, songMap);
+    }
+
+    String findSimmilarByEuclidean(int cluster) {
+        return new Classifier()
+                  .findSimilarWithEuclideanDistance("Cluster" + cluster + ".csv", minValuesCsvPath, maxValuesCsvPath, songMap);
+    }
+
+    List findTopMatches(int cluster, int numberOfMatches) {
+        return new Classifier()
+                  .getTopMatches("Cluster" + cluster + ".csv", minValuesCsvPath, maxValuesCsvPath, songMap, numberOfMatches);
+    }
+```
